@@ -1,0 +1,173 @@
+{
+  "name": "vs-code-pmtsql-formatter",
+  "displayName": "VSCode Poor's Man T-Sql Formatter Forked Extension",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "se4n",
+  "author": "Leonardo de Albuquerque Gouveia",
+  "engines": {
+    "vscode": "^1.45.0"
+  },
+  "bugs": {
+    "url": "https://github.com/leogouveia/vs-code-pmtsql-formatter/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leogouveia/vs-code-pmtsql-formatter"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:sql"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pmtsql-formatter.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "configuration": {
+      "title": "Pmtsql Formatter",
+      "properties": {
+        "pmtsql-formatter.formattingType": {
+          "type": "string",
+          "default": "standard",
+          "description": "What kind of formatting to do - 'standard' or 'obfuscation'",
+          "enum": [
+            "standard",
+            "obfuscation"
+          ]
+        },
+        "pmtsql-formatter.errorOutputPrefix": {
+          "type": "string",
+          "default": "--WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!\n",
+          "description": "Text to be included (in a comment at the top) if parsing failed and result is therefore suspect"
+        },
+        "pmtsql-formatter.std.indent": {
+          "type": "string",
+          "default": "\\t",
+          "description": "The unit of indentation - typically a tab (\\t) or a number of spaces"
+        },
+        "pmtsql-formatter.std.spacesPerTab": {
+          "type": "number",
+          "default": 4,
+          "description": "This is used to measure line length, and only applies if you use tabs"
+        },
+        "pmtsql-formatter.std.maxLineWidth": {
+          "type": "number",
+          "default": 999,
+          "description": "Request that the formatter wrap long lines to avoid exceeding this line length"
+        },
+        "pmtsql-formatter.std.statementBreaks": {
+          "type": "number",
+          "default": 2,
+          "description": "How many linebreaks should be added when starting a new statement?"
+        },
+        "pmtsql-formatter.std.clauseBreaks": {
+          "type": "number",
+          "default": 1,
+          "description": "How many linebreaks should be added when starting a new clause within a statement?"
+        },
+        "pmtsql-formatter.std.expandCommaLists": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should comma-delimited lists (columns, group by args, etc) be broken out onto new lines?"
+        },
+        "pmtsql-formatter.std.trailingCommas": {
+          "type": "boolean",
+          "default": true,
+          "description": "When starting a new line because of a comma, should the comma be at the end of line (VS the start of the next)?"
+        },
+        "pmtsql-formatter.std.spaceAfterExpandedComma": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should a space be added after the comma? (typically not if they are 'trailing')"
+        },
+        "pmtsql-formatter.std.expandBooleanExpressions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should boolean operators (AND, OR) cause a linebreak?"
+        },
+        "pmtsql-formatter.std.expandCaseStatements": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should CASE expressions have their WHEN and THEN expressions be broken out on new lines?"
+        },
+        "pmtsql-formatter.std.expandBetweenConditions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should BETWEEN expressions have the max argument broken out on a new line?"
+        },
+        "pmtsql-formatter.std.expandInLists": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should IN() lists have each argument on a new line?"
+        },
+        "pmtsql-formatter.std.breakJoinOnSections": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the ON section of a JOIN clause be broken out onto its own line?"
+        },
+        "pmtsql-formatter.std.uppercaseKeywords": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should T-SQL keywords (like SELECT, FROM) be automatically uppercased?"
+        },
+        "pmtsql-formatter.std.keywordStandardization": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should less-common T-SQL keywords be replaced with their standard counterparts? (NOTE: only safe for T-SQL!)"
+        },
+        "pmtsql-formatter.min.randomizeKeywordCase": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the case of keywords be randomized, to minimize legibility?"
+        },
+        "pmtsql-formatter.min.randomizeLineLengths": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the SQL be wrapped at arbitrary intervals, to minimize legibility?"
+        },
+        "pmtsql-formatter.min.preserveComments": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should comments in the code be retained (vs being stripped out)?"
+        },
+        "pmtsql-formatter.min.enableKeywordSubstitution": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should keywords with synonyms use less common forms? (NOTE: only safe for T-SQL!)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.45.0",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.0",
+    "eslint": "^6.8.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.1.2",
+    "typescript": "^3.8.3",
+    "vscode-test": "^1.3.0"
+  },
+  "dependencies": {
+    "poor-mans-t-sql-formatter": "^1.6.10"
+  }
+}
